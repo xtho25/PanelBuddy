@@ -1,0 +1,7 @@
+{
+    "force_x11": true,
+    "assets_path": "assets",
+    "widget_placement": "bottom-left",
+    "margins": [0, 0],
+    "size": 1
+}
