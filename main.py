@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     frames = load_frames("run", 8) # To be changed (deafault)
 
-    widget = mainWidget(frames, settings["size"], 10)
+    widget = mainWidget(frames, settings["size"], 10, settings["pixel_art"])
 
     if settings["widget_placement"] == "bottom-right":
         x = geo.right() - widget.width() - settings["margins"][0]

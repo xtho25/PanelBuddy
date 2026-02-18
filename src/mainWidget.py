@@ -4,7 +4,7 @@ from PySide6.QtGui import QPixmap, QPainter, QGuiApplication
 from PySide6.QtCore import QTimer
 
 class mainWidget(QtWidgets.QWidget):
-    def __init__(self, frames, size=1, fps=8):
+    def __init__(self, frames, size=1, fps=8, pixelArt=False):
         super().__init__()
 
         # Making Window Transparent / Adding properties(flags, attributes)
@@ -20,6 +20,7 @@ class mainWidget(QtWidgets.QWidget):
         self.frames = frames
         self.setSize(size)
         self.index = 0
+        self.pixelArt = pixelArt
 
         # Making the timer
         self.timer = QTimer(self)
@@ -45,5 +46,5 @@ class mainWidget(QtWidgets.QWidget):
     def paintEvent(self, event):
         # Drawing the pixmap
         painter = QPainter(self)
-        painter.setRenderHint(QPainter.SmoothPixmapTransform)
+        painter.setRenderHint(QPainter.SmoothPixmapTransform, not(self.pixelArt))
         painter.drawPixmap(self.rect(), self.frames[self.index])

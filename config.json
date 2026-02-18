@@ -3,5 +3,6 @@
     "assets_path": "assets",
     "widget_placement": "bottom-left",
     "margins": [0, 0],
-    "size": 1
+    "size": 1,
+    "pixel_art": false
 }
