@@ -17,16 +17,22 @@ if sys.platform.startswith("linux") and settings["force_x11"]:
     print("Forcing xcb. To disable forcing specify it in config.")
     os.environ["QT_QPA_PLATFORM"] = "xcb"
 
+def load_frames(prefix, count):
+    frames = []
+    for i in range(count):
+        path = os.path.join(ASSETS_PATH, prefix, f"{prefix}_{i}.png")
+        frames.append(QPixmap(path))
+    return frames
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
 
     screen = QGuiApplication.primaryScreen()
     geo = screen.availableGeometry()
 
-    widget = mainWidget(os.path.join(ASSETS_PATH, "idle_main"))
-    widget.setFixedSize(160, 160) #Deafault size (might change it later)
+    frames = load_frames("run", 8) # To be changed (deafault)
 
-    widget.setSize(settings["size"])
+    widget = mainWidget(frames, settings["size"], 10)
 
     if settings["widget_placement"] == "bottom-right":
         x = geo.right() - widget.width() - settings["margins"][0]
@@ -35,9 +41,6 @@ if __name__ == "__main__":
         x = geo.left() + settings["margins"][0]
         y = geo.bottom() - widget.height() - settings["margins"][1]
     widget.move(x, y)
-
-    if sys.platform == "win32":
-        make_click_through(self.winId())
 
     widget.show()
 
