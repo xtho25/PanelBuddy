@@ -6,11 +6,13 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtGui import QPixmap, QPainter, QGuiApplication
 
 from src.mainWidget import mainWidget
+from src.configWidget import configWidget
 
 # Reading config file
 with open("config.json", "r") as f:
     settings = json.load(f)
     ASSETS_PATH = settings["assets_path"]
+    f.close()
 
 # Linux force x11
 if sys.platform.startswith("linux") and settings["force_x11"]:
@@ -30,9 +32,10 @@ if __name__ == "__main__":
     screen = QGuiApplication.primaryScreen()
     geo = screen.availableGeometry()
 
-    frames = load_frames("run", 8) # To be changed (deafault)
+    frames = load_frames(settings["animation"]["type"], settings["animation"]["count"])
 
-    widget = mainWidget(frames, settings["size"], 10, settings["pixel_art"])
+    widget = mainWidget(frames, settings["size"], settings["animation"]["fps"], settings["pixel_art"])
+    config_widget = configWidget()
 
     if settings["widget_placement"] == "bottom-right":
         x = geo.right() - widget.width() - settings["margins"][0]
@@ -43,5 +46,6 @@ if __name__ == "__main__":
     widget.move(x, y)
 
     widget.show()
+    config_widget.show() # Remove later and put only open on taskbar icon
 
     sys.exit(app.exec())

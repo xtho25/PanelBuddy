@@ -1,8 +1,16 @@
 {
     "force_x11": true,
-    "assets_path": "assets",
+    "assets_path": "/home/xtho/code/python/PanelBuddy/assets",
     "widget_placement": "bottom-left",
-    "margins": [0, 0],
-    "size": 1,
-    "pixel_art": false
+    "margins": [
+        0.0,
+        0.0
+    ],
+    "size": 1.0,
+    "pixel_art": true,
+    "animation": {
+        "type": "run",
+        "count": 8,
+        "fps": 12
+    }
 }
