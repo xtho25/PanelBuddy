@@ -4,10 +4,11 @@ import json
 from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtWidgets import QLabel, QCheckBox, QSlider, QFileDialog, QPushButton, QLineEdit, QFormLayout, QSpacerItem, QSizePolicy, QComboBox, QDoubleSpinBox
 from PySide6.QtGui import QPixmap, QPainter, QGuiApplication, QFont
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from pathlib import Path
 
 class configWidget(QtWidgets.QWidget):
+    configChanged = Signal()
     def __init__(self):
         super().__init__()
 
@@ -63,16 +64,19 @@ class configWidget(QtWidgets.QWidget):
 
         self.X_marginsSpinbox.setSingleStep(0.5)
         self.Y_marginsSpinbox.setSingleStep(0.5)
+        self.X_marginsSpinbox.setValue(self.settings["margins"][0])
+        self.Y_marginsSpinbox.setValue(self.settings["margins"][1])
         self.X_marginsSpinbox.valueChanged.connect(self.X_spinbox_change)
         self.Y_marginsSpinbox.valueChanged.connect(self.Y_spinbox_change)
         self.X_marginsSpinbox.setFont(labelFont)
         self.Y_marginsSpinbox.setFont(labelFont)
 
-        # Size/scale slider
+        # Size/scale Spinbox
         size_label = QLabel("Size: ")
         size_label.setFont(labelFont)
         self.sizeSpinbox = QDoubleSpinBox()
         self.sizeSpinbox.setSingleStep(0.1)
+        self.sizeSpinbox.setValue(self.settings["size"])
         self.sizeSpinbox.valueChanged.connect(self.size_slider_change)
 
         # Pixel art checkbox
@@ -154,6 +158,8 @@ class configWidget(QtWidgets.QWidget):
         with open("config.json", "w") as f:
             json.dump(self.settings, f, indent=4)
             f.close()
+
+        self.configChanged.emit()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

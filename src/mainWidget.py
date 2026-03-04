@@ -17,15 +17,28 @@ class mainWidget(QtWidgets.QWidget):
         mainWidget.setAttribute(self, QtCore.Qt.WA_ShowWithoutActivating)
         mainWidget.setAttribute(self, QtCore.Qt.WA_TransparentForMouseEvents)
 
-        self.frames = frames
+        self.setFrames(frames)
         self.setSize(size)
         self.index = 0
-        self.pixelArt = pixelArt
+        self.setPixelArt(pixelArt)
+        self.setFps(fps)
 
         # Making the timer
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.next_frame)
-        self.timer.start(int(1000/fps))
+        self.timer.start(int(1000/self.fps))
+
+    def setFps(self, fps):
+        self.fps = fps
+        self.update()
+
+    def setFrames(self, frames):
+        self.frames = frames
+        self.update()
+
+    def setPixelArt(self, pixelArt):
+        self.pixelArt = pixelArt
+        self.update()
 
     def setSize(self, scale=1):
         # Sets the size of the asset to the desired scale
@@ -41,7 +54,6 @@ class mainWidget(QtWidgets.QWidget):
     def next_frame(self):
         self.index = (self.index + 1) % len(self.frames) #Resets index after it hits the amount of frames
         self.update()
-
 
     def paintEvent(self, event):
         # Drawing the pixmap
