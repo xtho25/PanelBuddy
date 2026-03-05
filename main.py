@@ -7,6 +7,7 @@ from PySide6.QtGui import QPixmap, QPainter, QGuiApplication
 
 from src.mainWidget import mainWidget
 from src.configWidget import configWidget
+from src.systemTray import systemTray
 
 # Reading config file
 def read_config():
@@ -48,6 +49,7 @@ if __name__ == "__main__":
         os.environ["QT_QPA_PLATFORM"] = "xcb"
 
     app = QtWidgets.QApplication([])
+    app.setQuitOnLastWindowClosed(False)
 
     screen = QGuiApplication.primaryScreen()
     geo = screen.availableGeometry()
@@ -58,10 +60,11 @@ if __name__ == "__main__":
 
     config_widget = configWidget()
     config_widget.configChanged.connect(load_config)
-
+    
+    sysTray = systemTray(config_widget)
+    
     set_location()
 
     widget.show()
-    config_widget.show() # Remove later and put only open on taskbar icon
 
     sys.exit(app.exec())
