@@ -6,11 +6,5 @@
         0.0,
         0.0
     ],
-    "size": 1.0,
-    "pixel_art": true,
-    "animation": {
-        "type": "run",
-        "count": 8,
-        "fps": 12
-    }
+    "size": 1.0
 }

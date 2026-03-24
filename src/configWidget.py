@@ -79,11 +79,11 @@ class configWidget(QtWidgets.QWidget):
         self.sizeSpinbox.setValue(self.settings["size"])
         self.sizeSpinbox.valueChanged.connect(self.size_slider_change)
 
-        # Pixel art checkbox
-        self.pixelArtCheckBox = QCheckBox("Pixel Art")
-        self.pixelArtCheckBox.setFont(labelFont)
-        self.pixelArtCheckBox.setChecked(self.settings["pixel_art"])
-        self.pixelArtCheckBox.stateChanged.connect(self.pixelArtChange)
+        # Pixel art checkbox (Needs to get moved/fixed)
+        # self.pixelArtCheckBox = QCheckBox("Pixel Art")
+        # self.pixelArtCheckBox.setFont(labelFont)
+        # self.pixelArtCheckBox.setChecked(self.settings["pixel_art"])
+        # self.pixelArtCheckBox.stateChanged.connect(self.pixelArtChange)
 
 
         # Adding everything into the layout
@@ -112,9 +112,10 @@ class configWidget(QtWidgets.QWidget):
         self.layout.addRow(margins_label)
         self.layout.addRow(self.X_marginsSpinbox, self.Y_marginsSpinbox)
         
-        self.layout.addItem(QSpacerItem(0, 13, QSizePolicy.Minimum, QSizePolicy.Fixed))
+        # Need to move this to new category for config for each animation
+        #self.layout.addItem(QSpacerItem(0, 13, QSizePolicy.Minimum, QSizePolicy.Fixed))
 
-        self.layout.addRow(self.pixelArtCheckBox)
+        #self.layout.addRow(self.pixelArtCheckBox)
 
 
         self.setLayout(self.layout)
@@ -161,11 +162,9 @@ class configWidget(QtWidgets.QWidget):
 
         self.configChanged.emit()
 
-if __name__ == "__main__":
+if __name__ == "__main__": # Purely for testing
     app = QtWidgets.QApplication([])
 
     widget = configWidget()
-
-    #widget.setFixedSize(350, 500) # Fix dis
 
     sys.exit(app.exec())
