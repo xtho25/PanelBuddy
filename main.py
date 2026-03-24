@@ -1,9 +1,8 @@
 import sys
 import os
 import json
-from PySide6 import QtCore, QtWidgets, QtGui
-from PySide6.QtWidgets import QLabel
-from PySide6.QtGui import QPixmap, QPainter, QGuiApplication
+from PySide6 import QtWidgets
+from PySide6.QtGui import QPixmap, QGuiApplication
 
 from src.mainWidget import mainWidget
 from src.configWidget import configWidget
@@ -27,7 +26,7 @@ def load_config():
     read_config()
     read_animation_config(state_manager.getState())
 
-    widget.setFrames(animations[str(state_manager.getState())]) # FIX evrything atp
+    widget.setFrames(animations[str(state_manager.getState())])
     widget.setFps(animation_settings["fps"])
     widget.setSize(settings["size"])
 
@@ -86,7 +85,13 @@ if __name__ == "__main__":
     widget = mainWidget(frames, settings["size"], animation_settings["fps"], animation_settings["pixel_art"])
 
     state_manager = stateManager(widget)
-    
+    state_manager.stateChanged.connect(load_config)
+
+    widget.clicked.connect(state_manager.on_click)
+    widget.hovered.connect(state_manager.on_hover)
+    widget.unhovered.connect(state_manager.on_unhover)
+    widget.mouseMove.connect(state_manager.timer_reset)
+
     config_widget = configWidget()
     config_widget.configChanged.connect(load_config)
     

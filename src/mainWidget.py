@@ -1,9 +1,14 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtWidgets import QLabel
 from PySide6.QtGui import QPixmap, QPainter, QGuiApplication
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, Signal
 
 class mainWidget(QtWidgets.QWidget):
+    clicked = Signal()
+    hovered = Signal()
+    unhovered = Signal()
+    mouseMove = Signal()
+
     def __init__(self, frames, size=1, fps=8, pixelArt=False):
         super().__init__()
 
@@ -27,6 +32,22 @@ class mainWidget(QtWidgets.QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.next_frame)
         self.timer.start(int(1000/self.fps))
+
+    def mousePressEvent(self, event):
+        self.clicked.emit()
+        return super().mousePressEvent(event)
+ 
+    def mouseMoveEvent(self, event):
+        self.mouseMove.emit()
+        return super().mouseMoveEvent(event)
+
+    def enterEvent(self, event):
+        self.hovered.emit()
+        return super().enterEvent(event)
+
+    def leaveEvent(self, event):
+        self.unhovered.emit()
+        return super().leaveEvent(event)
 
     def setFps(self, fps):
         self.fps = fps
